@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    title
+      | Lakeer Admin
+    = csrf_meta_tags
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+  body
+    - if current_user.present?
+      = render 'layouts/top_nav'
+      .container-fluid
+        .row
+          = render 'layouts/sidenav'
+          main.col-md-9.ml-sm-auto.col-lg-10.px-4 role="main"
+            = yield
+    - else
+      = yield

@@ -1,0 +1,35 @@
+= simple_form_for ([:admin, @user]) do |f|
+  = f.error_notification
+  .form-inputs
+    .row
+      .col-md-6
+        = f.label :first_name
+        = f.input :first_name, input_html: { class: 'form-control input-text input-text' }, label: false
+    .row  
+      .col-md-6
+        = f.label :last_name
+        = f.input :last_name, input_html: { class: 'form-control input-text' }, label: false
+    .row  
+      .col-md-6
+        = f.label :email
+        = f.input :email, input_html: { class: 'form-control input-text' }, label: false
+    .row  
+      .col-md-6
+        = f.label :password
+        = f.input :password, input_html: { class: 'form-control input-text' }, label: false
+    .row  
+      .col-md-6
+        = f.label :admin
+        br
+        = f.input :is_admin, as: :boolean , label: false do
+          = f.check_box :is_admin, {}, true, false
+    .row  
+      .col-md-6
+        = f.label :gender
+        = f.input :gender, as: :select, collection: [['Male', 'male'],['Female', 'female']], input_html: { class: 'form-control input-text' }, label: false
+  br
+  .form-actions  
+    = f.button :submit, class: 'btn btn-primary'
+    br
+    br
+    = link_to 'Back', admin_users_path, class:"btn btn-primary"

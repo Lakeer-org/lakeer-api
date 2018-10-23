@@ -1,0 +1,12 @@
+#search-filters
+	.flex-header
+		.flex-child1
+			.div1
+				input.user_search.form-control name="search_term" placeholder="Search" type="text"
+				.search-icon.glyphicon.glyphicon-search
+			br
+			= link_to 'Create user +', new_admin_user_path, class: 'btn btn-primary'
+			br
+			br
+#user-table-section
+	== render 'table'

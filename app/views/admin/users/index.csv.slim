@@ -1,0 +1,4 @@
+- headers = ['Name', 'Email', 'Type', 'Signed up on']
+= CSV.generate_line headers
+- @object_without_pagination.each do |user|
+	= CSV.generate_line([user.first_name, user.email, user.role, user.created_at])
