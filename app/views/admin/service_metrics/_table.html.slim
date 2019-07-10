@@ -1,0 +1,30 @@
+table.table.admin-user-table.table-hover
+  thead.thead-dark
+    tr
+      th
+        | Display Name
+      th
+        | Name
+      th
+        | Description
+      th
+        | Position
+      th
+        | Visibility
+      th
+
+  tbody
+    - @service_metrics.each do |metric|
+      tr
+        td
+          = link_to metric.display_name.titleize, admin_service_metric_path(metric)
+        td
+          = metric.name
+        td
+          = metric.description
+        td
+          = metric.position
+        td
+          = metric.is_visible
+        td
+          = link_to 'Edit', edit_admin_service_metric_path(metric)

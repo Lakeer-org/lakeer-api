@@ -24,6 +24,16 @@ module V1
         end
       end
 
+      desc 'User request callback'
+      params do
+        requires :name, type:String, desc: "User full name"
+        requires :mobile_number, type:String, desc: "Mobile number for callback"
+        optional :reason_for_call, type:String, desc: "Reason for callback"
+      end
+      post '/request-callback' do
+        RequestCallbackJob.perform_later(params[:name], params[:mobile_number], params[:reason_for_call])
+      end
+
     end
   end
 end

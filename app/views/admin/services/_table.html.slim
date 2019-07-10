@@ -1,0 +1,22 @@
+table.table.admin-user-table.table-hover
+  thead.thead-dark
+    tr
+      th
+        | Name
+      th
+        | Position
+      th
+        | Visibility
+      th
+
+  tbody
+    - @services.each do |service|
+      tr
+        td
+          = link_to service.service_type&.titleize, admin_service_path(service)
+        td
+          = service.position
+        td
+          = service.is_visible
+        td
+          = link_to 'Edit', edit_admin_service_path(service)

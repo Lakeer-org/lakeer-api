@@ -1,0 +1,32 @@
+= simple_form_for ([:admin,@service_category, @service]) do |f|
+  = f.error_notification
+  - if @service.errors.any?
+    ul.alert.alert-danger
+      - @service.errors.full_messages.each do |msg|
+        li = msg
+  .form-inputs
+    .row
+      .col-md-6
+        = f.label :service_type
+        = f.input :service_type, input_html: { class: 'form-control input-text input-text' }, label: false
+    br
+    .row  
+      .col-md-6
+        = f.label :position
+        = f.input :position, input_html: { class: 'form-control input-text' }, label: false, as: :integer
+    br
+    .row  
+      .col-md-6
+        = f.label :is_visible, for: 'service_category_is_visible' 
+        = f.input :is_visible, input_html: { class: 'form-control input-text' }, :boolean_style => :inline, :label => false, as: :boolean
+    br
+    .row  
+      .col-md-6
+        = f.label :service_category_id, for: 'service_category_id' 
+        = f.select :service_category_id, options_for_select(@service_categories.map {|service_category| [service_category.name.titleize, service_category.id]},@service.service_category_id),{}, class: 'form-control input-text', :label => false
+  br
+  .form-actions  
+    = f.button :submit, class: 'btn btn-primary'
+    br
+    br
+    = link_to 'Back', admin_service_categories_path, class:"btn btn-primary"

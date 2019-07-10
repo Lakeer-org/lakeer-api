@@ -1,12 +1,12 @@
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
+  
   protect_from_forgery with: :exception
 
   def authenticate_admin
-    unless controller_name == "dashboard"
-      redirect_to admin_dashboard_path unless current_user.present? && current_user.is_admin?
+    unless current_user&.is_admin?
+      redirect_to restricted_access_path
     end
-
   end
 
 

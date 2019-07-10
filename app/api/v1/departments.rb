@@ -14,44 +14,21 @@ module V1
       params do
         requires :department_name, type: String, desc: "Department name"
         requires :type, type: String, desc: "Department type"
-        optional :numpoint_type, type: String, desc: "Numpoint type"
-        optional :service_metric_hole_names, type: Array[String], desc: "The name of the service metrics that will be used to create holes on the returned department", documentation: { param_type: 'query' }
-        optional :radius, type: Float, desc: "Radius of buffer"
-
+        optional :difference_layer_ids, type: Array[String], desc: "The name of the service metrics that will be used to create holes on the returned department", documentation: { param_type: 'query' }
+        optional :difference_layer_radii, type: Array[Float], desc: "Radii of the difference layers", documentation: { param_type: 'query' }
+        optional :heatmap_id, type: String, desc: 'ID of the heatmap metric', documentation: { param_type: 'query' }
+        optional :heatmap_type, type: String, desc: 'Type of the metric that will be used to calculate the heatmap values, either a service_metric or a heatmap'
       end
       get '/' do
         begin
           department = Department.find_by(name: params[:department_name])
-          if params[:service_metric_hole_names] && params[:radius]
-            my_data = department.levels_with_service_metric_holes(params[:service_metric_hole_names], params[:radius], params[:type])
-            present my_data
-          else
-            present department, with: Entities::Departments::Base, type: params[:type], numpoint_type: params[:numpoint_type]
-          end
+          print(params[:difference_layer_ids])
+          print(params[:difference_layer_radii])
+          present department, with: Entities::Departments::Base, params:params, type: params[:type]
         rescue Mongoid::Errors::DocumentNotFound => e
           error!({ error: 'Not found', detail: e.message }, 404)
         end
       end
     end
-
-  #   resource :departments_with_holes do
-  #     before do
-  #       authenticate!
-  #     end
-  #
-  #     desc 'Get geo-json of a department'
-  #     params do
-  #       requires :department_name, type: String, desc: "Department name"
-  #       requires :type, type: String, desc: "Department type"
-  #       requires :buffer_radius, type: Integer, desc: "Buffer radius around each point"
-  #       requires :type, type: String, desc: "Department type"
-  #       optional :numpoint_type, type: String, desc: "Numpoint type"
-  #
-  #     end
-  #     get '/' do
-  #       department = Department.find_by(name: params[:department_name])
-  #       present department, with: Entities::Departments::Base, type: params[:type]  #, numpoint_type: params[:numpoint_type]
-  #     end
-  #   end
   end
 end

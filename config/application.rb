@@ -10,6 +10,7 @@ require "action_mailer/railtie"
 require "action_view/railtie"
 require "action_cable/engine"
 require "sprockets/railtie"
+require 'csv'
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
@@ -23,9 +24,13 @@ module Lakeer
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
 
+    # config.middleware.insert_after ActionDispatch::Static, Rack::Deflater
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+    config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
+    config.autoload_paths += %W(#{config.root}/lib)
 
     # Don't generate system test files.
     config.generators.system_tests = nil
@@ -33,7 +38,7 @@ module Lakeer
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'
-        resource '*', headers: :any, methods: [:get, :post, :options]
+        resource '*', headers: :any, methods: [:get, :post, :put, :delete, :options]
       end
     end
   end

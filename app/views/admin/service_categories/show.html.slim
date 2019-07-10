@@ -1,0 +1,16 @@
+.p45
+  h2 
+  .row
+    .col-md-6
+      p Name
+    .col-md-6
+      p = link_to @service_category.name.titleize, admin_service_category_path(@service_category)
+  .row
+    .col-md-6
+      p Position
+    .col-md-6
+      p #{@service_category.position} 
+  h2
+    | Listing Services
+    = link_to 'Create Service', new_admin_service_path, class: 'btn btn-primary pull-right'
+  = render 'admin/services/table'

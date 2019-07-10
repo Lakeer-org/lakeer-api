@@ -1,0 +1,13 @@
+.p45
+  h2 
+  .row
+    .col-md-6
+      p Name
+    .col-md-6
+      p = link_to @service.service_type&.titleize, ''
+  .row
+    .col-md-6
+      p Position
+    .col-md-6
+      p #{@service.position} 
+  = render 'admin/service_metrics/table'

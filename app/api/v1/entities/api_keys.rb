@@ -8,6 +8,7 @@ module V1::Entities::ApiKeys
     expose :first_name
     expose :last_name
     expose :gender
+    expose :user_id do |user| user._id.to_s end
   end
 
 end

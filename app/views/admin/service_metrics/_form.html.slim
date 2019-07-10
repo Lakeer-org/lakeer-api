@@ -1,0 +1,48 @@
+= simple_form_for ([:admin, @service_metric]) do |f|
+  = f.error_notification
+  .form-inputs
+    .row
+      .col-md-6
+        = f.label :display_name
+        = f.input :display_name, input_html: { class: 'form-control input-text input-text' }, label: false
+    br
+    .row  
+      .col-md-6
+        = f.label :description
+        = f.input :description, input_html: { class: 'form-control input-text' }, label: false, as: :text
+    br
+    .row  
+      .col-md-6
+        = f.label :data_source
+        = f.input :data_source, input_html: { class: 'form-control input-text' }, label: false, as: :text
+    br
+    .row  
+      .col-md-6
+        = f.label :data_verification
+        = f.input :data_verification, input_html: { class: 'form-control input-text' }, label: false, as: :text
+    br
+    .row  
+      .col-md-6
+        = f.label :vintage
+        = f.input :vintage, input_html: { class: 'form-control input-text' }, label: false, as: :text
+    br
+    .row  
+      .col-md-6
+        = f.label :position
+        = f.input :position, input_html: { class: 'form-control input-text' }, label: false, as: :integer
+    br
+    .row  
+      .col-md-6
+        = f.label :is_visible, for: 'service_category_is_visible' 
+        = f.input :is_visible, input_html: { class: 'form-control input-text' }, :boolean_style => :inline, :label => false, as: :boolean
+    br
+    .row  
+      .col-md-6
+        = f.label :service_id, for: 'service_id' 
+        = f.select :service_id, options_for_select(@services.map {|service| [service.service_type.titleize, service.id]},@service_metric.service_id),{}, class: 'form-control input-text', :label => false
+  br
+  .form-actions  
+    = f.button :submit, class: 'btn btn-primary'
+    br
+    br
+    = link_to 'Back', admin_service_metrics_path, class:"btn btn-primary"

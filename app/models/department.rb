@@ -16,7 +16,7 @@ class Department
     # Creates a RGeo factory that will
     factory = RGeo::Cartesian.preferred_factory(buffer_resolution: resolution)
     coder = RGeo::GeoJSON.coder({geo_factory: factory})
-    gjson_points = points.map {|x| {"type" => "Point", "coordinates" => x}}
+    gjson_points = points.map {|x| {'type' => 'Point', 'coordinates' => x}}
     rgeo_points = gjson_points.map {|x| coder.decode(x)}
     rgeo_buffers = rgeo_points.map {|x| x.buffer(buffer_radius.to_f/kilometers_per_degree)}
     all_buffers = rgeo_buffers.reduce(:+)
@@ -25,32 +25,31 @@ class Department
     end
   end
 
-  def levels_with_service_metric_holes(metric_names, buffer_radius, level_type)
+  def levels_with_service_metric_holes(difference_layer_ids, difference_layer_radii, level_type)
     resolution = 16 # This calculates the number of points that the polygonal approximation of a circle will have. A resolution of 16 will generate 32 points
     kilometers_per_degree = 110
     # Creates a RGeo factory that will
     factory = RGeo::Cartesian.preferred_factory(buffer_resolution: resolution)
-    coder = RGeo::GeoJSON.coder({geo_factory: factory})
+    coder = RGeo::GeoJSON.coder(geo_factory: factory)
 
-    metric_buffers = metric_names.map do |name|
-      ServiceMetric.where(name: name).first.service_assets.map do |asset|
-        coder.decode(asset.geometry.as_json).buffer(buffer_radius.to_f/kilometers_per_degree)
+    difference_layers = difference_layer_ids.map.with_index do |layer_id, index|
+      { id: layer_id, radius: difference_layer_radii[index] }
+    end
+    difference_layer_buffers = difference_layers.map do |layer|
+      ServiceMetric.find(layer[:id]).service_assets.filtered_coordinates.map do |asset|
+        coder.decode(asset.geometry.as_json).buffer(layer[:radius].to_f/kilometers_per_degree)
       end.reduce(:+)
     end.reduce(:+)
-    new_features = levels.where(level_type: level_type).map do |level|
+
+    levels.where(level_type: level_type).map do |level|
       {
-        "type" => "Feature",
-        "geometry" => coder.encode(coder.decode(level.geometry.as_json) - metric_buffers),
-        "properties" => {
-          'name' => level.name.tr("-0-9-", "").downcase.titleize + "_with_holes",
-          'type' => level.level_type
-        }
+        geometry: coder.encode(
+          coder.decode(level.geometry.as_json) - difference_layer_buffers
+          ).symbolize_keys,
+        name: level.name,
+        level_type: level.level_type
       }
     end
-    return {
-      "type" => 'FeatureCollection',
-      'features' => new_features
-    }
   end
 
 end

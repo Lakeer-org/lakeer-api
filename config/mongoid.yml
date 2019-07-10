@@ -5,7 +5,7 @@ development:
     default:
       # Defines the name of the default database that Mongoid can connect to.
       # (required).
-      database: lakeer_development_2
+      database: lakeer_development_1
       # Provides the hosts the default client can connect to. Must be an array
       # of host:port pairs. (required)
       hosts:
@@ -28,10 +28,10 @@ development:
         #     - use: web
 
         # The name of the user for authentication.
-        # user: 'user'
+        user: 'lakeer_db'
 
         # The password of the user for authentication.
-        # password: 'password'
+        password: 'Com12#City'
 
         # The user's database roles.
         # roles:
@@ -45,7 +45,7 @@ development:
 
         # The database or source to authenticate the user against.
         # (default: the database specified above or admin)
-        # auth_source: admin
+        auth_source: admin
 
         # Force a the driver cluster to behave in a certain manner instead of auto-
         # discovering. Can be one of: :direct, :replica_set, :sharded. Set to :direct
@@ -159,16 +159,30 @@ staging:
     default:
       # Defines the name of the default database that Mongoid can connect to.
       # (required).
-      database: lakeer_staging
+      database: lakeer_staging_staging
       # Provides the hosts the default client can connect to. Must be an array
       # of host:port pairs. (required)
       hosts:
         - localhost:27017
       options:
+        user: <%= ENV["DB_USERNAME"] %>
+        password: <%= ENV["DB_PASSWORD"] %>
+        auth_source: admin
+
 test:
   clients:
     default:
       database: lakeer_test
+      hosts:
+        - localhost:27017
+      options:
+        read:
+          mode: :primary
+        max_pool_size: 1
+production:
+  clients:
+    default:
+      database: lakeer_production
       hosts:
         - localhost:27017
       options:

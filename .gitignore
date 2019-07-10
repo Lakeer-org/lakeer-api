@@ -20,5 +20,8 @@
 
 how_to.txt
 examine_geojson.rb
-geojson-files/Hyderabad_Roads.geojson
+
 *.DS_Store
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key

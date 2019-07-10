@@ -9,11 +9,19 @@ class Level
   field :circle
   field :ward
   field :zone
+  field :properties
   field :area, type: Hash
+  field :total_expenditure
+  field :expenditure_population_ratio
+  field :population
+  field :person_nominated
+  field :no_of_operational_ward
+  field :chairperson
+  field :area_sabha_members
 
   belongs_to :department, inverse_of: :levels
   embeds_one :geometry, as: :geometral
-  has_many :numpoint_distributions, inverse_of: :level, dependent: :destroy
+  # has_many :numpoint_distributions, inverse_of: :level, dependent: :destroy
 
   scope :circles, -> {where(level_type: 'Circle') }
   scope :wards, -> {where(level_type: 'Ward') }

@@ -1,4 +1,7 @@
-#README
+# Lakeer Backend #
+
+[![Deployment Status](https://app.cloud66.com/stacks/badge/72a0eed0e22e03c20ca18069cc4d51fa.svg)](https://app.cloud66.com/stacks/54903)
+(staging)
 
 This application requires:
 
@@ -16,6 +19,7 @@ Getting Started
 ---------------
 1. Install the correct version of Ruby with bundle, then run `bundle` to install all the Gemfile requirements
 2. Run `rails generate simple_form:install`
+3. Get the `Hyderabad_Roads.geojson` file from the Google Drive at https://drive.google.com/drive/folders/1kW8bbA7Je6R55OaiRNr4tj6UZTPR5Qu3?usp=sharing and put it inside `geojson-files`
 4. Run `rails ingest_all:geojsons_task`
 5. Create an Admin user with the console
 

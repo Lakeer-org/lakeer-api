@@ -1,0 +1,25 @@
+table.table.admin-user-table.table-hover
+  thead.thead-dark
+    tr
+      th
+        | Name
+      th
+        | Owner
+      th
+        | Recommended
+      th
+      th
+
+  tbody
+    - @indices.each do |index|
+      tr
+        td
+          = index.name
+        td
+          = index.owner.email
+        td
+          = index.is_recommended
+        td
+          = link_to 'Edit', edit_admin_index_path(index)
+        td
+          = link_to 'Destroy', admin_index_path(index), data: { confirm: 'Are you sure?' }, method: :delete

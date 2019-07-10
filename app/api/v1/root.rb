@@ -4,6 +4,7 @@ module V1
     insert_after Grape::Middleware::Formatter, Grape::Middleware::Logger
     mount V1::Departments
     mount V1::Indices
+    mount V1::Environments
     mount V1::Grievances
     mount V1::PublicResources
     mount V1::ServiceMetrics
