@@ -3,60 +3,50 @@
 [![Deployment Status](https://app.cloud66.com/stacks/badge/72a0eed0e22e03c20ca18069cc4d51fa.svg)](https://app.cloud66.com/stacks/54903)
 (staging)
 
-This application requires:
+The main components of this application are:
 
-- Ruby 2.4.1
-- Rails 5.2.0
+Ruby  version - 2.4.1
 
-Required system packages
----------------
-This is not an exhaustive list, feel free to add more as you find them.
-* Ruby, preferably with a Ruby version manager such as rvm or rbenv
-* MongoDB
-* `sudo apt-get install libgeos-dev`
-* `sudo apt-get install libproj-dev`
-Getting Started
----------------
-1. Install the correct version of Ruby with bundle, then run `bundle` to install all the Gemfile requirements
-2. Run `rails generate simple_form:install`
-3. Get the `Hyderabad_Roads.geojson` file from the Google Drive at https://drive.google.com/drive/folders/1kW8bbA7Je6R55OaiRNr4tj6UZTPR5Qu3?usp=sharing and put it inside `geojson-files`
-4. Run `rails ingest_all:geojsons_task`
-5. Create an Admin user with the console
+Rails version - 5.2.0
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Mongo DB version - 4.0.1
 
-Things you may want to cover:
+AWS S3 for storing geojson files
 
-* Ruby version
+### API Structure
 
-* System dependencies
+* The API is based on REST Architecture
+* The GRAPE Framework is used to build the API
+* Documentation is managed via swagger - http://jaguar.lakeer-production.c66.me/swagger
 
-* Configuration
 
-* Database creation
+### Gem dependencies / System dependencies
 
-* Database initialization
+You will have to install first and then the gem needs to be installed
 
-* How to run the test suite
+```
+sudo apt-get install libgeos-dev
+sudo apt-get install libproj-dev
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+### Database creation and seeding data
 
-* Deployment instructions
+```
+rails db:migrate
+rails ingest_all:geojsons_task
+```
 
-* Databases
-	City Boundaries
-									has_many						has_one
-		* Department ----------> Levels ----------> Geometry
-					     							|has_many
-					        					----------> Numpoint Distributions
-	Public Assets
-												has_many							has_many									 has_many										has_many
-		* ServiceCaategory ----------> Services -----------> ServiceMetrics ----------> ServiceAssets ------------> Geometry
+The above command should setup the database with all required data seeded for the application to run. If any additional geojson data to be added, First place the geojson file into S3 then run the following
 
-								  has_many
-		* Grievance ------------> Geometry
+```
+rake import_geojsons:ingest_service_assets["Hyderabad_bus_stops.geojson","basic_service","public_transport","bus_stop","bus_stop_location"]
+```
 
-* Data ingestion instructions
-	# To import Geojsons into DB
-	rails ingest_all:geojsons_task
+### Admin
+
+A user with admin role needs to be created on the console first time.
+
+Services (job queues, cache servers, search engines, etc.)
+
+### Deployment instructions
+The application is deployed to the AWS EC2 instance, Which is managed by cloud66.
