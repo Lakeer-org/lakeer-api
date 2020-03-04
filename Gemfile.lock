@@ -770,7 +770,7 @@ GEM
     postmark (1.14.0)
       json
       rake
-    puma (3.12.0)
+    puma (3.12.4)
     rack (2.0.5)
     rack-accept (0.4.5)
       rack (>= 0.4)
@@ -933,7 +933,7 @@ DEPENDENCIES
   mongoid-geospatial
   nokogiri (~> 1.6, >= 1.6.8)
   postmark
-  puma (~> 3.7)
+  puma (~> 3.12)
   rack-cors
   rails (~> 5.2.0)
   rails-assets-bootstrap!
