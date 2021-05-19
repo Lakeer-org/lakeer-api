@@ -66,7 +66,7 @@ gem 'rgeo-proj4'
 gem 'aws-sdk', '~> 3'
 
 # For server-side SVG manipulation
-gem 'nokogiri', '~> 1.6', '>= 1.6.8'
+gem 'nokogiri', '~> 1.11'
 gem 'rollbar'
 
 group :development, :test do
